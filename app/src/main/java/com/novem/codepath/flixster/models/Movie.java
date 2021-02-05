@@ -3,15 +3,22 @@ package com.novem.codepath.flixster.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Movie {
+    int movieId;
     String posterPath;
     String overview;
     String title;
+    double rating;
+    //empty construtor needed by parceler library
+    public Movie(){
 
+    }
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s",posterPath);
     }
@@ -24,11 +31,20 @@ public class Movie {
         return title;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
     public Movie(JSONObject jsonObject) throws JSONException {
         posterPath = jsonObject.getString("poster_path");
         overview = jsonObject.getString("overview");
         title = jsonObject.getString("title");
-
+        rating = jsonObject.getDouble("vote_average");
+        movieId =jsonObject.getInt("id");
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException{
