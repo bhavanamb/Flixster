@@ -26,13 +26,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ### Notes
 
-Coundn't play the video intially. To resolve it added below code to AndroidManifest.xml
+Coundn't play the video intially. To resolve added com.google.android.youtube.api.service.START to AndroidManifest.xml
 
- <queries>
-        <intent>
-            <action android:name="com.google.android.youtube.api.service.START" />
-        </intent>
- </queries>
 
 ## Open-source libraries used
 - [Android Async HTTP](https://github.com/codepath/CPAsyncHttpClient) - Simple asynchronous HTTP requests with JSON parsing
