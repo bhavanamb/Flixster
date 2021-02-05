@@ -11,16 +11,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.novem.codepath.flixster.DetailActivity;
+import com.novem.codepath.flixster.MainActivity;
 import com.novem.codepath.flixster.R;
 import com.novem.codepath.flixster.models.Movie;
 
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
@@ -72,7 +79,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
-            Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
+            //int radius = 20;
+            //int margin =0;
+            //Glide.with(context).load(movie.getPosterPath()).transform(new RoundedCornersTransformation(radius,margin)).into(ivPoster);
+            Glide.with(context).load(movie.getPosterPath()).apply(RequestOptions.bitmapTransform(new RoundedCorners(14))).into(ivPoster);
             //1.Register click listener on whole container
             //2.Action taken on tap to navigate to detail page(new activity)
             container.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +91,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     Intent i = new Intent(context, DetailActivity.class);
                     i.putExtra("title",movie.getTitle());
                     i.putExtra("movie", Parcels.wrap(movie));
-                    context.startActivity(i);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity)context,(View)tvTitle,"poster");
+                    context.startActivity(i,options.toBundle());
                     //Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
                 }
             });
